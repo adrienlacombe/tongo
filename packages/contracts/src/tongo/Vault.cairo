@@ -142,7 +142,7 @@ pub mod Vault {
             )
                 .unwrap_syscall();
 
-            self.tongo_deployed.entry(address).write(true);
+            self._register_tongo(tag, address);
 
             self
                 .emit(
@@ -198,10 +198,6 @@ pub mod Vault {
         /// Register a Tongo contract for the given tag and address. It is only called as part of
         /// the deploy_tongo() function.
         fn _register_tongo(ref self: ContractState, tag: felt252, tongo_address: ContractAddress) {
-            assert!(
-                !self.is_known_tongo(tongo_address),
-                "Tongo Contract already deployed for this Address",
-            );
             self.tongo_deployed.entry(tongo_address).write(true);
             self.tag_to_address.entry(tag).write(tongo_address);
         }
